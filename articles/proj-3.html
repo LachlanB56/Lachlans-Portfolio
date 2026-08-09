@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Project detail - Lachlan Biersteker">
+<title>Self-Stabilizing Plane: IMU + Barometer Fusion on STM32 - Lachlan Biersteker</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👤</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ['"Source Serif 4"', 'Georgia', 'serif'],
+          sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  }
+</script>
+
+<style>
+  body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+  .latex-serif { font-family: 'Source Serif 4', Georgia, serif; }
+</style>
+</head>
+<body class="antialiased bg-white">
+
+<header class="max-w-4xl mx-auto px-6 sm:px-8 pt-8">
+  <a href="../index.html#projects" class="inline-flex items-center gap-2 text-gray-600 hover:text-black transition-colors font-medium">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 6l-6 6l6 6"></path>
+    </svg>
+    Back to Home
+  </a>
+</header>
+
+<article class="max-w-4xl mx-auto px-6 sm:px-8 py-10 sm:py-14">
+  <span class="text-sm font-mono" style="color:#5AC2E8">02</span>
+  <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mt-1 latex-serif">Self-Stabilizing Plane: IMU + Barometer Fusion on STM32</h1>
+  <div class="w-[75px] h-[5px] mt-4 mb-8 rounded-full" style="background-color:#B3E6F9"></div>
+
+  <div class="space-y-6 text-base sm:text-lg text-gray-600 leading-relaxed">
+    <p>
+      A bare-metal embedded firmware project on an STM32F411RE Nucleo board that reads an MPU6050 IMU and a
+      BMP280 barometric pressure sensor over a shared I&sup2;C bus, fuses that data into a live pitch/roll
+      attitude estimate and altitude, and closes the loop with two PID controllers driving a pair of aileron
+      servos toward wings-level, self-stabilizing flight. Written in C against the STM32 HAL, configured with
+      STM32CubeMX/CubeIDE, with results streamed live over UART.
+    </p>
+    <p>
+      Pitch and roll come from the accelerometer's gravity vector via <code>atan2</code>, combined with angular
+      rates from the gyroscope through a complementary filter (high-pass on the gyro, low-pass on the
+      accelerometer), using a measured loop <code>dt</code> rather than an assumed constant, so the drift-corrected
+      attitude estimate stays accurate regardless of loop timing. In parallel, the BMP280's raw pressure and
+      temperature readings are run through Bosch's factory calibration/compensation formulas and converted to
+      altitude with the standard barometric formula.
+    </p>
+    <p>
+      That filtered pitch/roll now feeds two independent PID controllers (roll: <code>kp=3.3, ki=1.1, kd=0.5</code>;
+      pitch: <code>kp=4.1, ki=0.8, kd=0.3</code>), each computing derivative-on-measurement to avoid kick and
+      clamping the integral term to prevent windup. The two correction outputs are mixed elevon-style, adding and
+      subtracting the roll term between two servo channels on TIM3 (PA6/PA7) so the ailerons move opposite for
+      roll correction and together for pitch correction, driving the airframe back toward level. Getting the PWM
+      right surfaced its own quirk: TIM3's configured prescaler/period give a real refresh rate of roughly 42&nbsp;Hz
+      rather than the textbook 50&nbsp;Hz, close enough for most analog hobby servos but not exactly on spec. The PID
+      gains above are untuned starting points pending bench and flight testing.
+    </p>
+    <p>
+      This was a first embedded-systems project from scratch, and the debugging was as instructive as the
+      result: tracing a bus that reported stuck-<code>BUSY</code> on the very first I&sup2;C transaction back to
+      an unconfigured system clock, chasing intermittent NACKs to marginal breadboard connections, and working
+      around a clone MPU6050 that reported the wrong <code>WHO_AM_I</code> identity byte.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+    <img src="../images/IMG_3747.jpeg" alt="Breadboard prototype: STM32 Nucleo board wired to the MPU6050, BMP280, and two aileron servos" class="w-full aspect-square object-cover bg-gray-50 rounded-md shadow-lg">
+    <img src="../images/Screenshot 2026-08-09 100402.png" alt="STM32CubeMX TIM3 PWM configuration driving the servo channels" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+    <img src="../images/Screenshot 2026-08-09 121001.png" alt="PID controller code: pid_roll and pid_pitch gains and the PID_Update function" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+  </div>
+
+  <div class="flex flex-wrap gap-2 pt-8">
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">STM32</span>
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Embedded C</span>
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">I2C</span>
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Complementary Filter</span>
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">PID Control</span>
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Servo PWM</span>
+  </div>
+
+  <p class="pt-6 space-x-6">
+    <a href="https://github.com/LachlanB56/Integrating-IMU-and-barometer-with-STM32" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-gray-700 hover:text-black transition-colors font-medium underline">
+      View on GitHub
+    </a>
+  </p>
+</article>
+
+<footer class="border-t border-gray-200 py-8">
+  <div class="max-w-4xl mx-auto px-6 sm:px-8">
+    <a href="../index.html#projects" class="inline-flex items-center gap-2 text-gray-600 hover:text-black transition-colors font-medium">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 6l-6 6l6 6"></path>
+      </svg>
+      Back to Home
+    </a>
+  </div>
+</footer>
+
+</body>
+</html>

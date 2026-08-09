@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Project detail - Lachlan Biersteker">
+<title>Smart Gym Sensor - Lachlan Biersteker</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👤</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ['"Source Serif 4"', 'Georgia', 'serif'],
+          sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  }
+</script>
+
+<style>
+  body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+  .latex-serif { font-family: 'Source Serif 4', Georgia, serif; }
+</style>
+</head>
+<body class="antialiased bg-white">
+
+<header class="max-w-4xl mx-auto px-6 sm:px-8 pt-8">
+  <a href="../index.html#projects" class="inline-flex items-center gap-2 text-gray-600 hover:text-black transition-colors font-medium">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 6l-6 6l6 6"></path>
+    </svg>
+    Back to Home
+  </a>
+</header>
+
+<article class="max-w-4xl mx-auto px-6 sm:px-8 py-10 sm:py-14">
+  <span class="text-sm font-mono" style="color:#5AC2E8">01</span>
+  <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mt-1 latex-serif">Smart Gym Sensor</h1>
+  <p class="text-sm text-gray-500 mt-2">"Metric": Wearable Rep Detection & Form Analysis</p>
+  <div class="w-[75px] h-[5px] mt-4 mb-8 rounded-full" style="background-color:#B3E6F9"></div>
+
+  <div class="space-y-6 text-base sm:text-lg text-gray-600 leading-relaxed">
+    <p>
+      An end-to-end wearable system that uses inertial sensors to automatically detect gym repetitions and
+      analyze exercise form. Motion data is captured from a body-worn IMU, processed into per-rep biomechanical
+      metrics like range of motion and tempo, classified by machine learning, and surfaced through a mobile app
+      for live feedback and long-term progress tracking. Built solo, end to end: firmware, signal processing,
+      machine learning, a real-time server, a custom PCB, and a companion app.
+    </p>
+    <p>
+      The prototype that generated all training data is an STM32 Nucleo-F411RE reading an InvenSense MPU-6050
+      IMU over I&sup2;C and streaming timestamped 6-axis samples over USB serial at a fixed 100 Hz. From there, a
+      Python pipeline derives a drift-free tilt angle straight from the accelerometer's gravity vector (no gyro
+      integration, no drift), detects individual reps as peaks in that signal, and computes range of motion and
+      tempo per rep. Two scikit-learn models sit on top: one rates form quality from those per-rep features, and
+      a second distinguishes real exercise from handling/background noise (~85% accuracy on held-out windows).
+    </p>
+    <p>
+      All of it runs live through a FastAPI + WebSocket server that analyzes a rolling window of incoming
+      samples so recompute cost stays constant regardless of session length, persisting results to SQLite.
+      A custom wearable PCB, a BL652 (Nordic nRF52832) BLE module paired with a Bosch BMI270 IMU, battery-powered
+      over USB-C, has been designed to replace the tethered prototype and has since been fabricated and debugged:
+      continuity and voltage were checked with a multimeter, a LiPo battery was soldered to the onboard charger,
+      firmware was flashed onto the board using a dev kit, and the resulting Bluetooth traffic was verified by
+      monitoring it in Wireshark. A companion React Native / Expo app for live rep feedback, weight logging, and
+      progress graphs is in active development against the streaming server, ready to connect to the wearable now
+      that its firmware is complete.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+    <img src="../images/gym-sensor-pcb-1.png" alt="Custom wearable PCB for the smart gym sensor" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+    <img src="../images/gym-sensor-pcb-2.png" alt="Custom wearable PCB layout for the smart gym sensor" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+  </div>
+  <p class="text-sm text-gray-500 mt-2">Custom wearable PCB (BL652 + BMI270), fabricated and debugged.</p>
+
+  <div class="flex flex-wrap gap-2 pt-8">
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Embedded Systems</span>
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">IMU</span>
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Signal Processing</span>
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Machine Learning</span>
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Wearable PCB</span>
+  </div>
+
+  <p class="pt-6">
+    <a href="https://github.com/LachlanB56/smart-gym-sensor" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-gray-700 hover:text-black transition-colors font-medium underline">
+      View on GitHub
+    </a>
+  </p>
+</article>
+
+<footer class="border-t border-gray-200 py-8">
+  <div class="max-w-4xl mx-auto px-6 sm:px-8">
+    <a href="../index.html#projects" class="inline-flex items-center gap-2 text-gray-600 hover:text-black transition-colors font-medium">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 6l-6 6l6 6"></path>
+      </svg>
+      Back to Home
+    </a>
+  </div>
+</footer>
+
+</body>
+</html>

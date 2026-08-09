@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Portfolio website of Lachlan Biersteker">
+<title>Lachlan Biersteker - Engineering Physics Student, UBC</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👤</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ['"Source Serif 4"', 'Georgia', 'serif'],
+          sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+  .latex-serif { font-family: 'Source Serif 4', Georgia, serif; }
+  section[id] { scroll-margin-top: 6rem; }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in { animation: fadeIn .8s ease-out forwards; opacity: 0; }
+  .animation-delay-200 { animation-delay: .2s; }
+  .animation-delay-400 { animation-delay: .4s; }
+  .animation-delay-600 { animation-delay: .6s; }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ HEADER / NAV ============ -->
+<header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <nav class="max-w-7xl mx-auto px-8 py-4">
+    <ul class="flex items-center gap-8 justify-center">
+      <li><a href="#about" class="text-gray-700 hover:text-black transition-colors font-medium">About</a></li>
+      <li><a href="#projects" class="text-gray-700 hover:text-black transition-colors font-medium">Projects</a></li>
+      <li><a href="#experience" class="text-gray-700 hover:text-black transition-colors font-medium">Experience</a></li>
+      <li><a href="#education" class="text-gray-700 hover:text-black transition-colors font-medium">Education</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section>
+  <div id="hero" class="relative isolate overflow-hidden bg-white pt-16 pb-12 sm:pt-20 sm:pb-14 md:pt-24 md:pb-16 md:min-h-screen flex flex-col" style="--accent-color:#B3E6F9">
+    <div class="absolute inset-0 -z-10" style="background: radial-gradient(ellipse 800px 1200px at 0% 0%, #B3E6F940 0%, #B3E6F925 20%, #B3E6F910 40%, rgba(255,255,255,.3) 70%, rgba(255,255,255,.8) 90%, white 100%)"></div>
+    <svg aria-hidden="true" class="absolute inset-0 -z-10 size-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]">
+      <defs>
+        <pattern x="50%" y="-1" id="grid-pattern" width="200" height="200" patternUnits="userSpaceOnUse">
+          <path d="M.5 200V.5H200" fill="none"></path>
+        </pattern>
+      </defs>
+      <rect fill="url(#grid-pattern)" width="100%" height="100%" stroke-width="0"></rect>
+    </svg>
+
+    <div class="p-8 pb-4 sm:p-10 sm:pb-4 md:p-16 md:pb-4 flex flex-col md:flex-row items-start justify-between gap-12">
+      <div class="text-left flex-1 max-w-xl lg:max-w-2xl">
+        <h1 class="mt-6 sm:mt-8 md:mt-10 text-pretty text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-gray-800 animate-fade-in animation-delay-200">
+          <span class="latex-serif">Lachlan Biersteker</span>
+        </h1>
+        <p class="mt-4 sm:mt-6 md:mt-8 text-pretty text-sm sm:text-base md:text-lg font-medium text-gray-600 animate-fade-in animation-delay-400">
+          UBC Engineering Physics Student passionate about creating innovative solutions from engineering theory and mathematics to solve and analyze challenging real world problems.
+        </p>
+        <p class="mt-4 sm:mt-6 md:mt-8 animate-fade-in animation-delay-400">
+          <a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="inline-block bg-black text-white text-sm sm:text-base md:text-lg font-medium px-4 py-2 rounded-2xl hover:bg-gray-800 transition-colors">
+            Resume
+          </a>
+        </p>
+      </div>
+      <div class="flex-shrink-0 animate-fade-in animation-delay-400">
+        <img src="images/IMG_3095 (2).jpeg" alt="Profile photo" class="w-80 h-80 md:w-96 md:h-96 rounded-md object-cover shadow-lg">
+      </div>
+    </div>
+
+    <div class="px-8 pb-6 sm:px-10 sm:pb-8 md:px-16 md:pb-8 mt-2 flex gap-x-4 sm:gap-x-6 md:gap-x-8 text-gray-700 animate-fade-in animation-delay-600">
+      <a href="mailto:lachlan.biersteker1@gmail.com" aria-label="Email" class="transition-colors duration-300 hover:text-[var(--accent-color)]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"></path>
+          <path d="M3 7l9 6l9 -6"></path>
+        </svg>
+      </a>
+      <a href="https://www.linkedin.com/in/lachlan-biersteker-706b47355/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="transition-colors duration-300 hover:text-[var(--accent-color)]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 11v5"></path><path d="M8 8v.01"></path><path d="M12 16v-5"></path>
+          <path d="M16 16v-3a2 2 0 1 0 -4 0"></path>
+          <path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z"></path>
+        </svg>
+      </a>
+      <a href="https://github.com/LachlanB56" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="transition-colors duration-300 hover:text-[var(--accent-color)]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" class="px-8 pt-4 pb-8 sm:px-12 sm:pt-6 sm:pb-10 md:px-16 md:pt-8 md:pb-12 lg:px-24 lg:pt-10 lg:pb-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+      <div class="lg:col-span-4">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold text-gray-900 latex-serif">About Me</h2>
+        <div class="w-[75px] h-[5px] mt-2 rounded-full" style="background-color:#B3E6F9"></div>
+      </div>
+      <div class="lg:col-span-8 space-y-8">
+        <p class="text-lg sm:text-lg md:text-xl leading-relaxed text-gray-600">
+          I am a second year Engineering Physics student at the University of British Columbia. I am passionate about projects involving embedded systems, machine learning, programming. I am also interested in fields of quantum computing and genetic engineering. 
+        </p>
+        <p class="text-lg sm:text-lg md:text-xl leading-relaxed text-gray-600">
+          I am always eager to gain more skills and experience. I really enjoy working on things that have connections to physics theory and am always looking for ways to apply course material. 
+        </p>
+        <div class="pt-4">
+          <div class="flex flex-wrap gap-3" id="skills-list">
+            <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium">Python</span>
+            <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium">Git/GitHub</span>
+            <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium">Altium</span>
+            <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium">C/C++</span>
+            <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium">Java</span>
+            <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium">MATLAB</span>
+            <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium">Solidworks</span>
+            <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium">KiCAD</span>
+            <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium">Simulink</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects" class="p-8 sm:p-12 md:p-16 lg:p-24">
+    <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold text-gray-900 latex-serif">Projects</h2>
+    <p class="mt-3 text-base sm:text-lg text-gray-600 leading-relaxed">A selection of things I've built.</p>
+    <div class="w-[75px] h-[5px] mt-2 mb-10 rounded-full" style="background-color:#B3E6F9"></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <a href="articles/proj-1.html" class="group relative block cursor-pointer">
+        <div class="relative p-6 md:p-8 bg-gray-50 rounded-2xl border border-gray-200 transition-all duration-300 group-hover:scale-[1.02] group-hover:-translate-y-1 overflow-hidden">
+          <div class="relative z-10 space-y-4">
+            <div>
+              <span class="text-sm font-mono" style="color:#B3E6F9">01</span>
+              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mt-1">Smart Gym Sensor</h3>
+            </div>
+            <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+              A wearable IMU-based device that gives lifters real-time feedback on exercise form, tracking rep tempo, range of motion, and bar path consistency during a set.
+            </p>
+            <div class="grid grid-cols-2 gap-4">
+              <img src="images/gym-sensor-pcb-1.png" alt="Custom wearable PCB for the smart gym sensor" class="w-full aspect-square object-contain bg-white rounded-md shadow-lg">
+              <img src="images/gym-sensor-pcb-2.png" alt="Custom wearable PCB layout for the smart gym sensor" class="w-full aspect-square object-contain bg-white rounded-md shadow-lg">
+            </div>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Embedded Systems</span>
+              <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">IMU</span>
+              <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Wearable Tech</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="articles/proj-3.html" class="group relative block cursor-pointer">
+        <div class="relative p-6 md:p-8 bg-gray-50 rounded-2xl border border-gray-200 transition-all duration-300 group-hover:scale-[1.02] group-hover:-translate-y-1 overflow-hidden">
+          <div class="relative z-10 space-y-4">
+            <div>
+              <span class="text-sm font-mono" style="color:#B3E6F9">02</span>
+              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mt-1">Self-Stabilizing Plane: IMU + Barometer Fusion on STM32</h3>
+            </div>
+            <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+              Register-level STM32 firmware fusing an IMU and barometer into a real-time attitude and altitude estimate, closing the loop with dual PID controllers to drive aileron servos toward self-stabilizing, wings-level flight.
+            </p>
+            <div class="grid grid-cols-2 gap-4">
+              <img src="images/IMG_3747.jpeg" alt="Breadboard prototype of the self-stabilizing plane firmware" class="w-full aspect-square object-cover rounded-md shadow-lg">
+              <img src="images/Screenshot 2026-08-09 121001.png" alt="PID controller code for roll and pitch stabilization" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+            </div>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">STM32</span>
+              <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Sensor Fusion</span>
+              <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">PID Control</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="articles/proj-2.html" class="group relative block cursor-pointer">
+        <div class="relative p-6 md:p-8 bg-gray-50 rounded-2xl border border-gray-200 transition-all duration-300 group-hover:scale-[1.02] group-hover:-translate-y-1 overflow-hidden">
+          <div class="relative z-10 space-y-4">
+            <div>
+              <span class="text-sm font-mono" style="color:#B3E6F9">03</span>
+              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mt-1">Airplane Telemetry Board</h3>
+            </div>
+            <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+              A custom PCB for an RC model airplane that streams live GPS, altitude, airspeed, and attitude data to a ground station during test flights.
+            </p>
+            <div class="grid grid-cols-2 gap-4">
+              <img src="images/airplane-board-3d.png" alt="3D render of the airplane navigation and telemetry board" class="w-full aspect-square object-contain bg-white rounded-md shadow-lg">
+              <img src="images/airplane-board-2d.png" alt="2D PCB layout of the airplane navigation and telemetry board" class="w-full aspect-square object-contain bg-white rounded-md shadow-lg">
+            </div>
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">PCB Design</span>
+              <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Altium</span>
+              <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Flight Telemetry</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ============ EXPERIENCE ============ -->
+  <section id="experience" class="p-8 sm:p-12 md:p-16 lg:p-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+      <div class="lg:col-span-4">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold text-gray-900 latex-serif">Experience</h2>
+        <div class="w-[75px] h-[5px] mt-2 rounded-full" style="background-color:#B3E6F9"></div>
+      </div>
+      <div class="lg:col-span-8 space-y-8">
+
+        <a href="articles/exp-1.html" class="group relative block cursor-pointer">
+          <div class="relative p-4 sm:p-6 md:p-8 bg-gray-50 rounded-xl sm:rounded-2xl border border-gray-200 transition-all duration-300 hover:bg-white hover:shadow-xl hover:border-gray-300 hover:-translate-y-1">
+            <div class="space-y-4">
+              <div>
+                <div class="flex flex-wrap items-baseline gap-3">
+                  <h3 class="text-xl sm:text-xl font-bold text-black mt-1">WinSport</h3>
+                  <span class="text-sm italic font-normal text-gray-500 mt-1">Calgary, AB</span>
+                </div>
+                <p class="text-base sm:text-xl mt-1">Ski Instructor</p>
+              </div>
+              <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+                CSIA-certified instructor teaching skiing to students ages 3–18+, enforcing safety protocols
+                and adapting lessons on the fly to conditions and skill level. Built patience, clear
+                communication, and the ability to break a complex physical skill into simple, teachable
+                steps, skills that carry directly into explaining technical work clearly.
+              </p>
+              <div class="grid grid-cols-1 gap-4">
+                <img src="images/IMG_2615.jpeg" alt="Lachlan skiing with students on a chairlift at WinSport" class="w-full object-cover rounded-md shadow-lg">
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="articles/exp-2.html" class="group relative block cursor-pointer">
+          <div class="relative p-4 sm:p-6 md:p-8 bg-gray-50 rounded-xl sm:rounded-2xl border border-gray-200 transition-all duration-300 hover:bg-white hover:shadow-xl hover:border-gray-300 hover:-translate-y-1">
+            <div class="space-y-4">
+              <div>
+                <div class="flex flex-wrap items-baseline gap-3">
+                  <h3 class="text-xl sm:text-xl font-bold text-black mt-1">Pedalheads</h3>
+                  <span class="text-sm italic font-normal text-gray-500 mt-1">Calgary, AB</span>
+                </div>
+                <p class="text-base sm:text-xl mt-1">Bike Instructor</p>
+              </div>
+              <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+                Taught children ages 5–12 to ride and navigate roadways safely, adapting each lesson to the
+                individual kid's confidence and ability. Reinforced how to stay calm and safety-minded while
+                managing several fast-changing situations at once, a mindset that transfers well to
+                hands-on lab and hardware work.
+              </p>
+              <div class="grid grid-cols-1 gap-4">
+                <div class="w-full bg-gray-900 rounded-md shadow-lg p-8 flex items-center justify-center">
+                  <img src="images/pedalheads-logo.png" alt="Pedalheads logo" class="w-full max-w-[240px] object-contain">
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="articles/exp-3.html" class="group relative block cursor-pointer">
+          <div class="relative p-4 sm:p-6 md:p-8 bg-gray-50 rounded-xl sm:rounded-2xl border border-gray-200 transition-all duration-300 hover:bg-white hover:shadow-xl hover:border-gray-300 hover:-translate-y-1">
+            <div class="space-y-4">
+              <div>
+                <div class="flex flex-wrap items-baseline gap-3">
+                  <h3 class="text-xl sm:text-xl font-bold text-black mt-1">Masters Academy</h3>
+                  <span class="text-sm italic font-normal text-gray-500 mt-1">Calgary, AB</span>
+                </div>
+                <p class="text-base sm:text-xl mt-1">Basketball Coach, Grade 8 Team</p>
+              </div>
+              <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+                Ran practices and coached games for a middle-school team, developing players' individual
+                skills alongside team strategy. Sharpened my ability to plan structured sessions, give
+                direct feedback, and lead a group toward a shared goal, the same leadership and
+                organization needed to run a project team.
+              </p>
+              <div class="grid grid-cols-1 gap-4">
+                <img src="images/IMG_0834.JPEG" alt="Masters Academy Grade 8 basketball team with medals" class="w-full object-cover rounded-md shadow-lg">
+              </div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EDUCATION ============ -->
+  <section id="education" class="p-8 sm:p-12 md:p-16 lg:p-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+      <div class="lg:col-span-4">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold text-gray-900 latex-serif">Education</h2>
+        <div class="w-[75px] h-[5px] mt-2 rounded-full" style="background-color:#B3E6F9"></div>
+      </div>
+      <div class="lg:col-span-8 space-y-8">
+
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 sm:p-5 md:p-6 hover:shadow-md transition-shadow duration-300">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4">
+            <div>
+              <h3 class="text-lg sm:text-xl font-semibold text-gray-900">University of British Columbia</h3>
+              <p class="text-base sm:text-lg">Major in Engineering Physics</p>
+            </div>
+            <span class="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-0">20XX - Present</span>
+          </div>
+
+          <p class="text-base sm:text-lg italic mb-2">Achievements</p>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0"></span>
+              <span class="text-sm sm:text-base text-gray-600">Dean's List, 2026</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0"></span>
+              <span class="text-sm sm:text-base text-gray-600">Excellence in Mathematics 30 Award, 2025</span>
+            </li>
+          </ul>
+
+          <p class="text-base sm:text-lg italic mt-4 mb-2">Selected Relevant Courses</p>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0"></span>
+              <span class="text-sm sm:text-base text-gray-600">Programming in C/C++ (APSC 160)</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0"></span>
+              <span class="text-sm sm:text-base text-gray-600">Electromagnetism (PHYS 158)</span>
+            </li>
+             <li class="flex items-start">
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0"></span>
+              <span class="text-sm sm:text-base text-gray-600">Calculus 1 & 2 (MATH 100/101)</span>
+            </li>
+            <li class="flex items-start">
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0"></span>
+              <span class="text-sm sm:text-base text-gray-600">Linear Algebra (MATH 152)</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative bg-gray-50 border-t border-gray-200">
+  <div class="mx-auto max-w-6xl px-6 py-12 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+      <div class="flex flex-col gap-4">
+        <h3 class="text-2xl font-bold text-gray-800">Lachlan Biersteker</h3>
+        <p class="text-base text-gray-600">Engineering Physics Student, UBC</p>
+        <div class="flex gap-x-6">
+          <a href="mailto:lachlan.biersteker1@gmail.com" aria-label="Email" class="text-gray-600 transition-colors duration-300 hover:text-[#B3E6F9]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+              <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"></path>
+              <path d="M3 7l9 6l9 -6"></path>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/lachlan-biersteker-706b47355/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="text-gray-600 transition-colors duration-300 hover:text-[#B3E6F9]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+              <path d="M8 11v5"></path><path d="M8 8v.01"></path><path d="M12 16v-5"></path>
+              <path d="M16 16v-3a2 2 0 1 0 -4 0"></path>
+              <path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z"></path>
+            </svg>
+          </a>
+          <a href="https://github.com/LachlanB56" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="text-gray-600 transition-colors duration-300 hover:text-[#B3E6F9]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+              <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="hidden md:flex md:flex-col md:items-end gap-4">
+        <nav class="flex gap-x-8">
+          <a href="#about" class="text-sm text-gray-600 hover:text-gray-800 transition-colors">About</a>
+          <a href="#projects" class="text-sm text-gray-600 hover:text-gray-800 transition-colors">Projects</a>
+          <a href="#experience" class="text-sm text-gray-600 hover:text-gray-800 transition-colors">Experience</a>
+          <a href="#education" class="text-sm text-gray-600 hover:text-gray-800 transition-colors">Education</a>
+        </nav>
+        <p class="text-sm text-gray-500" id="copyright"></p>
+      </div>
+    </div>
+  </div>
+  <div class="absolute inset-0 -z-10 overflow-hidden">
+    <svg aria-hidden="true" class="absolute bottom-0 left-0 w-full h-24 text-gray-100">
+      <pattern id="footer-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+        <path d="M0 50 Q 25 40, 50 50 T 100 50" stroke="currentColor" stroke-width="0.5" fill="none" opacity="0.4"></path>
+      </pattern>
+      <rect width="100%" height="100%" fill="url(#footer-pattern)"></rect>
+    </svg>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    if (window.scrollY > 100) {
+      header.classList.add('bg-white/80', 'backdrop-blur-sm');
+    } else {
+      header.classList.remove('bg-white/80', 'backdrop-blur-sm');
+    }
+  });
+  document.getElementById('copyright').textContent = '© ' + new Date().getFullYear() + ' Lachlan Biersteker';
+</script>
+
+</body>
+</html>

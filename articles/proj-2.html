@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Project detail - Lachlan Biersteker">
+<title>Airplane Navigation & Telemetry Board - Lachlan Biersteker</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👤</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ['"Source Serif 4"', 'Georgia', 'serif'],
+          sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  }
+</script>
+
+<style>
+  body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+  .latex-serif { font-family: 'Source Serif 4', Georgia, serif; }
+</style>
+</head>
+<body class="antialiased bg-white">
+
+<header class="max-w-4xl mx-auto px-6 sm:px-8 pt-8">
+  <a href="../index.html#projects" class="inline-flex items-center gap-2 text-gray-600 hover:text-black transition-colors font-medium">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 6l-6 6l6 6"></path>
+    </svg>
+    Back to Home
+  </a>
+</header>
+
+<article class="max-w-4xl mx-auto px-6 sm:px-8 py-10 sm:py-14">
+  <span class="text-sm font-mono" style="color:#5AC2E8">03</span>
+  <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mt-1 latex-serif">Airplane Navigation & Telemetry Board</h1>
+  <div class="w-[75px] h-[5px] mt-4 mb-8 rounded-full" style="background-color:#B3E6F9"></div>
+
+  <div class="space-y-6 text-base sm:text-lg text-gray-600 leading-relaxed">
+    <p>
+      A compact avionics board built around a bare STM32F411RET6 chip, integrating GPS, a 6-axis IMU, a
+      barometer, and a time-of-flight sensor on a single shared I&sup2;C bus. Designed as a self-contained
+      navigation and telemetry computer for a fixed-wing aircraft: rather than feeding a separate autopilot,
+      the onboard STM32F411 reads every sensor directly and handles navigation and telemetry itself, keeping
+      the design simple and the routing tight.
+    </p>
+    <p>
+      The sensor suite shares SCL/SDA on I&sup2;C1 with a single pair of bus pull-ups: a u-blox NEO-M9N for
+      position and time, an InvenSense MPU6050 for 6-axis motion, a Bosch BMP280 for barometric altitude, and a
+      VL53L0X time-of-flight sensor. Power comes in at 5&nbsp;V from the aircraft's BEC rail and is regulated
+      down to 3.3&nbsp;V through a low-noise LT1763 LDO with reverse-polarity protection, and a 5-pin SWD header
+      gives debug/programming access. The board is laid out on a 4-layer stackup with a solid internal ground
+      plane for clean signal return and low EMI, designed in Altium with a hierarchical schematic split across
+      dedicated I&sup2;C-bus and GPS sub-sheets.
+    </p>
+    <p>
+      This board is the successor to an earlier module-based sensor board ("Aviation Sensors"), which combined
+      GNSS, IMU, time-of-flight, and barometer data with a proper RF front end: a 50&nbsp;&Omega; controlled-impedance
+      trace and bias-T network for an active GNSS antenna. This revision moves the microcontroller onto the
+      board itself as a bare chip rather than a dev module, and switches the GPS to an I&sup2;C interface to
+      keep everything on one bus.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8">
+    <img src="../images/airplane-board-3d.png" alt="3D render of the airplane navigation and telemetry board" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+    <img src="../images/airplane-board-2d.png" alt="2D PCB layout of the airplane navigation and telemetry board" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+    <img src="../images/airplane-board-schematic.png" alt="PCB schematic of the airplane navigation and telemetry board" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+    <img src="../images/airplane-board-i2c.png" alt="I2C bus sub-sheet schematic" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+    <img src="../images/airplane-board-gps.png" alt="GPS sub-sheet schematic" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+  </div>
+
+  <div class="flex flex-wrap gap-2 pt-8">
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">PCB Design</span>
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Altium</span>
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">STM32</span>
+    <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">GNSS / IMU / Barometer</span>
+  </div>
+
+  <p class="pt-6 space-x-6">
+    <a href="https://github.com/LachlanB56/Airplane-Navigation-Telemetry-Board" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-gray-700 hover:text-black transition-colors font-medium underline">
+      View on GitHub
+    </a>
+    <a href="https://github.com/LachlanB56/Flight-System-PCB" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-gray-500 hover:text-black transition-colors font-medium underline">
+      Predecessor board
+    </a>
+  </p>
+</article>
+
+<footer class="border-t border-gray-200 py-8">
+  <div class="max-w-4xl mx-auto px-6 sm:px-8">
+    <a href="../index.html#projects" class="inline-flex items-center gap-2 text-gray-600 hover:text-black transition-colors font-medium">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 6l-6 6l6 6"></path>
+      </svg>
+      Back to Home
+    </a>
+  </div>
+</footer>
+
+</body>
+</html>

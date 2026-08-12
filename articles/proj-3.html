@@ -69,8 +69,7 @@
       subtracting the roll term between two servo channels on TIM3 (PA6/PA7) so the ailerons move opposite for
       roll correction and together for pitch correction, driving the airframe back toward level. Getting the PWM
       right surfaced its own quirk: TIM3's configured prescaler/period give a real refresh rate of roughly 42&nbsp;Hz
-      rather than the textbook 50&nbsp;Hz, close enough for most analog hobby servos but not exactly on spec. The PID
-      gains above are untuned starting points pending bench and flight testing.
+      rather than the textbook 50&nbsp;Hz, close enough for most analog hobby servos but not exactly on spec. 
     </p>
     <p>
       This was a first embedded-systems project from scratch, and the debugging was as instructive as the

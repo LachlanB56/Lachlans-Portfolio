@@ -54,6 +54,12 @@
       servos toward wings-level, self-stabilizing flight. Written in C against the STM32 HAL, configured with
       STM32CubeMX/CubeIDE, with results streamed live over UART.
     </p>
+
+    <figure class="my-10">
+      <img src="../images/IMG_3747.jpeg" alt="Breadboard prototype: STM32 Nucleo board wired to the MPU6050, BMP280, and two aileron servos" class="w-full max-h-[560px] object-cover rounded-lg shadow-xl">
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">The breadboard prototype: Nucleo board, MPU6050, BMP280, and the two aileron servos.</figcaption>
+    </figure>
+
     <p>
       Pitch and roll come from the accelerometer's gravity vector via <code>atan2</code>, combined with angular
       rates from the gyroscope through a complementary filter (high-pass on the gyro, low-pass on the
@@ -65,12 +71,27 @@
     <p>
       That filtered pitch/roll now feeds two independent PID controllers (roll: <code>kp=3.3, ki=1.1, kd=0.5</code>;
       pitch: <code>kp=4.1, ki=0.8, kd=0.3</code>), each computing derivative-on-measurement to avoid kick and
-      clamping the integral term to prevent windup. The two correction outputs are mixed elevon-style, adding and
+      clamping the integral term to prevent windup.
+    </p>
+
+    <figure class="my-10">
+      <img src="../images/Screenshot 2026-08-09 121001.png" alt="PID controller code: pid_roll and pid_pitch gains and the PID_Update function" class="w-full max-h-[560px] object-contain bg-gray-50 rounded-lg shadow-xl p-4">
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">The PID_Update function and the roll/pitch gain sets.</figcaption>
+    </figure>
+
+    <p>
+      The two correction outputs are mixed elevon-style, adding and
       subtracting the roll term between two servo channels on TIM3 (PA6/PA7) so the ailerons move opposite for
       roll correction and together for pitch correction, driving the airframe back toward level. Getting the PWM
       right surfaced its own quirk: TIM3's configured prescaler/period give a real refresh rate of roughly 42&nbsp;Hz
-      rather than the textbook 50&nbsp;Hz, close enough for most analog hobby servos but not exactly on spec. 
+      rather than the textbook 50&nbsp;Hz, close enough for most analog hobby servos but not exactly on spec.
     </p>
+
+    <figure class="my-10">
+      <img src="../images/Screenshot 2026-08-09 100402.png" alt="STM32CubeMX TIM3 PWM configuration driving the servo channels" class="w-full max-h-[560px] object-contain bg-gray-50 rounded-lg shadow-xl p-4">
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">STM32CubeMX TIM3 PWM configuration for the servo channels.</figcaption>
+    </figure>
+
     <p>
       This was a first embedded-systems project from scratch, and the debugging was as instructive as the
       result: tracing a bus that reported stuck-<code>BUSY</code> on the very first I&sup2;C transaction back to
@@ -79,10 +100,27 @@
     </p>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-    <img src="../images/IMG_3747.jpeg" alt="Breadboard prototype: STM32 Nucleo board wired to the MPU6050, BMP280, and two aileron servos" class="w-full aspect-square object-cover bg-gray-50 rounded-md shadow-lg">
-    <img src="../images/Screenshot 2026-08-09 100402.png" alt="STM32CubeMX TIM3 PWM configuration driving the servo channels" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
-    <img src="../images/Screenshot 2026-08-09 121001.png" alt="PID controller code: pid_roll and pid_pitch gains and the PID_Update function" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+  <div class="space-y-4 mt-14">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 latex-serif">What I Learned</h2>
+    <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+      Learned how to configure timers to generate PWM signals for hobby servos, how to implement a complementary filter for fusing accelerometer and gyroscope data, and how to implement PID control loops in embedded C. I also learned how to use the STM32CubeMX tool to configure peripherals and generate initialization code, as well as how to debug I&sup2;C communication issues and handle sensor calibration. Additionally, I gained experience in real-time embedded programming and the importance of timing considerations in control systems.
+      I also learned how to effectively use UART for debugging and data streaming, which was crucial for tuning the PID controllers and verifying sensor readings. Overall, this project provided a comprehensive understanding of embedded systems, sensor fusion, and control theory in a practical application.
+    </p>
+  </div>
+
+  <div class="space-y-4 mt-10">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 latex-serif">Challenges I Faced</h2>
+    <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+      The most challenging aspect of this project was that there was very little abstraction in STM32Cube requiring a strong understanding of the I&sup2;C protocol and how to implement it correctly in embedded C. I also had to learn how to properly configure the STM32 timers for PWM generation and how to tune the PID controllers for stable flight. Additionally, I faced challenges with sensor calibration and ensuring accurate readings from the MPU6050 and BMP280 sensors, which required careful attention to detail and iterative testing.
+      The debug and bring up of the project was quite challenging as well as the address of the MPU6050 was different than listed on the datasheet which took a while to figure out. 
+    </p>
+  </div>
+
+  <div class="space-y-4 mt-10">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 latex-serif">What I'd Improve</h2>
+    <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+      If i was to do this proejct again and gave myself more time and had access to a 3D printer I would have designed a small plane in Solidworks and connected the servos to the ailerons and printed the plane to test the self-stabilizing flight. I would also have spent more time on the layout of the board.
+    </p>
   </div>
 
   <div class="flex flex-wrap gap-2 pt-8">

@@ -44,7 +44,7 @@
 <article class="max-w-4xl mx-auto px-6 sm:px-8 py-10 sm:py-14">
   <span class="text-sm font-mono" style="color:#5AC2E8">01</span>
   <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mt-1 latex-serif">Smart Gym Sensor</h1>
-  <p class="text-sm text-gray-500 mt-2">"Metric": Wearable Rep Detection & Form Analysis</p>
+  <p class="text-sm text-gray-500 mt-2">Wearable Rep Detection & Form Analysis</p>
   <div class="w-[75px] h-[5px] mt-4 mb-8 rounded-full" style="background-color:#B3E6F9"></div>
 
   <div class="space-y-6 text-base sm:text-lg text-gray-600 leading-relaxed">
@@ -57,30 +57,100 @@
     </p>
     <p>
       The prototype that generated all training data is an STM32 Nucleo-F411RE reading an InvenSense MPU-6050
-      IMU over I&sup2;C and streaming timestamped 6-axis samples over USB serial at a fixed 100 Hz. From there, a
-      Python pipeline derives a drift-free tilt angle straight from the accelerometer's gravity vector (no gyro
-      integration, no drift), detects individual reps as peaks in that signal, and computes range of motion and
-      tempo per rep. Two scikit-learn models sit on top: one rates form quality from those per-rep features, and
-      a second distinguishes real exercise from handling/background noise (~85% accuracy on held-out windows).
+      IMU over I&sup2;C and streaming timestamped 6-axis samples over USB serial at a fixed 100 Hz. A typical
+      capture looks like the raw six-axis trace below, ten consecutive bicep curls, each visible as a repeating
+      swing in the accelerometer and gyroscope channels.
+    </p>
+
+    <figure class="my-10">
+      <img src="../images/Acceleration graph.png" alt="Raw accelerometer and gyroscope data over time from the wearable IMU during a set of bicep curls" class="w-full max-h-[560px] object-contain bg-gray-50 rounded-lg shadow-xl p-4">
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">Raw 6-axis IMU data streamed from the wearable during a set of bicep curls.</figcaption>
+    </figure>
+
+    <p>
+      From there, a Python pipeline derives a drift-free tilt angle straight from the accelerometer's gravity
+      vector (no gyro integration, no drift), and detects individual reps as peaks in that signal, shown below
+      for the same set.
+    </p>
+
+    <figure class="my-10">
+      <img src="../images/Rep detection.png" alt="Bicep curl reps detected as peaks in the smoothed IMU acceleration signal" class="w-full max-h-[560px] object-contain bg-gray-50 rounded-lg shadow-xl p-4">
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">Individual reps detected as peaks in the smoothed acceleration signal.</figcaption>
+    </figure>
+
+    <p>
+      From each detected rep, the pipeline computes range of motion and tempo. Two scikit-learn models sit on
+      top: one rates form quality from those per-rep features, and a second distinguishes real exercise from
+      handling/background noise (~85% accuracy on held-out windows).
     </p>
     <p>
       All of it runs live through a FastAPI + WebSocket server that analyzes a rolling window of incoming
       samples so recompute cost stays constant regardless of session length, persisting results to SQLite.
       A custom wearable PCB, a BL652 (Nordic nRF52832) BLE module paired with a Bosch BMI270 IMU, battery-powered
-      over USB-C, has been designed to replace the tethered prototype and has since been fabricated and debugged:
-      continuity and voltage were checked with a multimeter, a LiPo battery was soldered to the onboard charger,
-      firmware was flashed onto the board using a dev kit, and the resulting Bluetooth traffic was verified by
-      monitoring it in Wireshark. A companion React Native / Expo app for live rep feedback, weight logging, and
+      and charged via USB-C, has been designed to replace the tethered prototype, shown below as a 3D render and
+      as the routed 2D layout.
+    </p>
+
+    <figure class="my-10">
+      <img src="../images/gym-sensor-pcb-1.png" alt="3D render of the custom wearable PCB for the smart gym sensor" class="w-full max-h-[560px] object-contain bg-gray-50 rounded-lg shadow-xl p-4">
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">3D render of the custom wearable PCB (BL652 + BMI270).</figcaption>
+    </figure>
+
+    <figure class="my-10">
+      <img src="../images/gym-sensor-pcb-2.png" alt="2D PCB layout and routing of the custom wearable PCB" class="w-full max-h-[560px] object-contain bg-gray-50 rounded-lg shadow-xl p-4">
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">Routed 2D layout of the wearable PCB.</figcaption>
+    </figure>
+
+    <p>
+      It has since been fabricated and debugged: continuity and voltage were checked with a multimeter, and a
+      LiPo battery was soldered to the onboard charger.
+    </p>
+
+    <figure class="my-10">
+      <img src="../images/531F58E7-3DDC-449C-91AF-EC605641F3B3.jpg" alt="Close-up photo of the fabricated custom wearable PCB with BL652 module and USB-C connector" class="w-full max-h-[560px] object-cover rounded-lg shadow-xl">
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">The fabricated wearable PCB, populated and ready to test.</figcaption>
+    </figure>
+
+    <p>
+      Firmware was then flashed onto the board using an nRF52832 dev kit, and the resulting Bluetooth traffic
+      was verified by monitoring it in Wireshark.
+    </p>
+
+    <figure class="my-10">
+      <img src="../images/0C97E373-A8CE-48E2-B0E7-9D904AB23A0F.jpg" alt="Wearable PCB wired to the nRF52832 development kit for firmware flashing, with the LiPo battery attached" class="w-full max-h-[560px] object-cover rounded-lg shadow-xl">
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">Flashing firmware via the nRF52832 dev kit, LiPo battery soldered and attached.</figcaption>
+    </figure>
+
+    <p>
+      A companion React Native / Expo app for live rep feedback, weight logging, and
       progress graphs is in active development against the streaming server, ready to connect to the wearable now
       that its firmware is complete.
     </p>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-    <img src="../images/gym-sensor-pcb-1.png" alt="Custom wearable PCB for the smart gym sensor" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
-    <img src="../images/gym-sensor-pcb-2.png" alt="Custom wearable PCB layout for the smart gym sensor" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+  <div class="space-y-4 mt-14">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 latex-serif">What I Learned</h2>
+    <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+      I learned the process for PCB fabrication and assembly, choosing passive packages that were consistent with what the seller offered, generating a Bill of Materials, and using the Gerber files to order the board. I learned how to use a multimeter to check continuity and voltage on the fabricated board, and how to solder a LiPo battery to the onboard charger. I also learned how to flash firmware onto the board using a dev kit, and how to monitor Bluetooth traffic in Wireshark to verify that the board was communicating correctly with the server.
+      I learned the bring up process for a PCB and how to systematically debug with my multimeter and firmware. 
+      Learned how to take raw data and analyze it using python scripts to extract features and train machine learning models. Learned how to use FastAPI and WebSockets to stream data from the wearable to a server in real-time, and how to persist that data to a database for later analysis. Learned how to build a React Native app that connects to the server and displays live feedback and progress graphs.
+    </p>
   </div>
-  <p class="text-sm text-gray-500 mt-2">Custom wearable PCB (BL652 + BMI270), fabricated and debugged.</p>
+
+  <div class="space-y-4 mt-10">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 latex-serif">Challenges I Faced</h2>
+    <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+      One of the most difficult parts f this project was making the PCB compact, for the features I wanted to include the PCB quickly became very packed which really grew my ability to efficiently wire up a PCB and make it compact. Another challenge was the bring up of the PCB, I had to learn how to use a multimeter to check continuity and voltage on the fabricated board, and how to solder a LiPo battery to the onboard charger. I also had to learn how to flash firmware onto the board using a dev kit, and how to monitor Bluetooth traffic in Wireshark to verify that the board was communicating correctly with the server.
+    </p>
+  </div>
+
+  <div class="space-y-4 mt-10">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 latex-serif">What I'd Improve</h2>
+    <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+      This project is still in development and I am not finished, I think that a new iteration I will add in a UART interface to the wearable so that I can stream data over USB serial to a computer for debugging and data collection. I would also like to improve the machine learning models by collecting more data and training more complex models to improve accuracy and robustness.
+      I would also like to spend more time on developing the UI of the app to make it more user friendly and visually appealing. I would also like to add more features to the app such as the ability to set goals and track progress over time, as well as the ability to share data with friends and coaches for feedback and motivation.
+    </p>
+  </div>
 
   <div class="flex flex-wrap gap-2 pt-8">
     <span class="px-3 py-1 bg-gray-900 text-white rounded-lg text-xs sm:text-sm font-medium">Embedded Systems</span>

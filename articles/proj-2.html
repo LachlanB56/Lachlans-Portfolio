@@ -54,6 +54,12 @@
       the onboard STM32F411 reads every sensor directly and handles navigation and telemetry itself, keeping
       the design simple and the routing tight.
     </p>
+
+    <figure class="my-10">
+      <img src="../images/airplane-board-3d.png" alt="3D render of the airplane navigation and telemetry board" class="w-full max-h-[560px] object-contain bg-gray-50 rounded-lg shadow-xl p-4">
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">3D render of the navigation and telemetry board.</figcaption>
+    </figure>
+
     <p>
       The sensor suite shares SCL/SDA on I&sup2;C1 with a single pair of bus pull-ups: a u-blox NEO-M9N for
       position and time, an InvenSense MPU6050 for 6-axis motion, a Bosch BMP280 for barometric altitude, and a
@@ -63,6 +69,25 @@
       plane for clean signal return and low EMI, designed in Altium with a hierarchical schematic split across
       dedicated I&sup2;C-bus and GPS sub-sheets.
     </p>
+
+    <figure class="my-10">
+      <img src="../images/airplane-board-2d.png" alt="2D PCB layout of the airplane navigation and telemetry board" class="w-full max-h-[560px] object-contain bg-gray-50 rounded-lg shadow-xl p-4">
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">2D PCB layout, 4-layer stackup with a solid internal ground plane.</figcaption>
+    </figure>
+
+    <figure class="my-10">
+      <img src="../images/airplane-board-schematic.png" alt="PCB schematic of the airplane navigation and telemetry board" class="w-full max-h-[560px] object-contain bg-gray-50 rounded-lg shadow-xl p-4">
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">Top-level schematic.</figcaption>
+    </figure>
+
+    <figure class="my-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <img src="../images/airplane-board-i2c.png" alt="I2C bus sub-sheet schematic" class="w-full max-h-[560px] object-contain bg-gray-50 rounded-lg shadow-xl p-4">
+        <img src="../images/airplane-board-gps.png" alt="GPS sub-sheet schematic" class="w-full max-h-[560px] object-contain bg-gray-50 rounded-lg shadow-xl p-4">
+      </div>
+      <figcaption class="text-sm text-gray-500 mt-3 text-center">The I&sup2;C-bus and GPS sub-sheets from the hierarchical schematic.</figcaption>
+    </figure>
+
     <p>
       This board is the successor to an earlier module-based sensor board ("Aviation Sensors"), which combined
       GNSS, IMU, time-of-flight, and barometer data with a proper RF front end: a 50&nbsp;&Omega; controlled-impedance
@@ -72,12 +97,33 @@
     </p>
   </div>
 
-  <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8">
-    <img src="../images/airplane-board-3d.png" alt="3D render of the airplane navigation and telemetry board" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
-    <img src="../images/airplane-board-2d.png" alt="2D PCB layout of the airplane navigation and telemetry board" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
-    <img src="../images/airplane-board-schematic.png" alt="PCB schematic of the airplane navigation and telemetry board" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
-    <img src="../images/airplane-board-i2c.png" alt="I2C bus sub-sheet schematic" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
-    <img src="../images/airplane-board-gps.png" alt="GPS sub-sheet schematic" class="w-full aspect-square object-contain bg-gray-50 rounded-md shadow-lg">
+  <div class="space-y-4 mt-14">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 latex-serif">What I Learned</h2>
+    <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+      I learned about mixed signal PCB design, what a bias-T does and the considerations for implementing an RF antenna.
+      I learned how to effectively structure a hierarchical schematic in Altium and how to use the design rules to enforce good layout practices.
+      I also learned how to design a PCB with a bare microcontroller.
+      Gained an understanding of the function of decoupling and bulk capacitors around IC's. 
+      Learned the importance of a solid ground and power plane and how to implement it in a PCB design.
+
+
+    </p>
+  </div>
+
+  <div class="space-y-4 mt-10">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 latex-serif">Challenges I Faced</h2>
+    <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+      The most challenging aspect of this project was managing the complexity of the mixed-signal design and ensuring proper isolation between the RF and digital sections. I researched and found the bias-T which seperates the RF needed for the GNSS antenna and the DC power needed for the chip and implemented it into my board. 
+      Another challenging aspect was ensuring that the pins of the STM32 were correctly configured with respect to the datasheet. I used the STM32CubeMX tool to generate the correct pin configuration and initialization code for the microcontroller so that there was no ambiguity on pin assignments. 
+    </p>
+  </div>
+
+  <div class="space-y-4 mt-10">
+    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 latex-serif">What I'd Improve</h2>
+    <p class="text-base sm:text-lg text-gray-600 leading-relaxed">
+      If I were to redo this project I would spend much more time on the layout of the board, I spent so much time ensuring that my schematic was efficiently laid out and correct but I felt that I rushed the layout, making it less space efficient then I would like. 
+      I would also have placed more components on the bottom signal layer to improve space efficiency. 
+    </p>
   </div>
 
   <div class="flex flex-wrap gap-2 pt-8">
